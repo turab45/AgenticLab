@@ -12,6 +12,13 @@ The original notebook has been preserved at `notebooks/breastxagent_original.ipy
 .
 ├── notebooks/
 │   └── breastxagent_original.ipynb
+├── scripts/
+│   ├── download_model.sh
+│   ├── run_gradcam.sh
+│   ├── run_inference.sh
+│   ├── run_llm_reports.sh
+│   ├── run_reports.sh
+│   └── setup.sh
 ├── src/
 │   └── breastxagent/
 │       ├── agent.py
@@ -31,56 +38,64 @@ The original notebook has been preserved at `notebooks/breastxagent_original.ipy
 
 ## Setup
 
+Recommended setup from a fresh clone:
+
 ```bash
-python -m venv .venv
+bash scripts/setup.sh
 source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
 ```
 
-If you only want the runtime dependencies:
+This installs the runtime dependencies from `requirements.txt`. You do not need the `breastxagent` shell command to be globally installed.
+
+For development tools such as `pytest` and `ruff`, run:
 
 ```bash
-python -m pip install -r requirements.txt
+python3 -m pip install -e ".[dev]"
 ```
 
 ## Download the Model Bundle
 
 ```bash
-breastxagent download --local-dir data/breast_density_classification
+bash scripts/download_model.sh
 ```
 
 This downloads `MONAI/breast_density_classification` from Hugging Face.
+
+To download to a different directory:
+
+```bash
+bash scripts/download_model.sh path/to/model_bundle
+```
 
 ## Run Inference
 
 Use the sample images included in the downloaded model bundle:
 
 ```bash
-breastxagent infer \
-  --repo-dir data/breast_density_classification \
-  --output-csv outputs/predictions.csv
+bash scripts/run_inference.sh
 ```
 
 Or point to your own image folder:
 
 ```bash
-breastxagent infer \
-  --repo-dir data/breast_density_classification \
-  --image-dir path/to/images \
-  --output-csv outputs/predictions.csv
+IMAGE_DIR=path/to/images bash scripts/run_inference.sh
 ```
 
-If your images are organized as `A/`, `B/`, `C/`, and `D/` subfolders, the CLI will treat each parent folder name as the ground-truth class and include metrics.
+If your images are organized as `A/`, `B/`, `C/`, and `D/` subfolders, the pipeline will treat each parent folder name as the ground-truth class and include metrics.
+
+Optional overrides:
+
+```bash
+REPO_DIR=data/breast_density_classification \
+OUTPUT_CSV=outputs/predictions.csv \
+DEVICE=cpu \
+bash scripts/run_inference.sh
+```
 
 ## Generate Grad-CAM Outputs
 
 ```bash
-breastxagent gradcam \
-  --repo-dir data/breast_density_classification \
-  --predictions-csv outputs/predictions.csv \
-  --output-dir outputs/gradcam \
-  --output-csv outputs/gradcam_results.csv
+bash scripts/run_gradcam.sh
 ```
 
 ## Generate Research Reports
@@ -88,29 +103,40 @@ breastxagent gradcam \
 Deterministic guarded reports:
 
 ```bash
-breastxagent report \
-  --gradcam-csv outputs/gradcam_results.csv \
-  --output-csv outputs/agent_reports.csv
+bash scripts/run_reports.sh
 ```
 
 Optional Hugging Face LLM formatting:
 
 ```bash
 export HF_TOKEN=your_token
-breastxagent report \
-  --gradcam-csv outputs/gradcam_results.csv \
-  --output-csv outputs/llm_agent_reports.csv \
-  --use-llm \
-  --hf-model meta-llama/Llama-3.1-8B-Instruct
+bash scripts/run_llm_reports.sh
 ```
 
 The LLM output is checked for forbidden clinical or visual interpretation claims. If a report violates the guardrails, the pipeline falls back to the deterministic report.
 
+## Optional CLI
+
+The project still includes a Python CLI because the bash scripts use it internally through:
+
+```bash
+PYTHONPATH=src python3 -m breastxagent.cli ...
+```
+
+You only need the shorter `breastxagent ...` command if you install the package in editable mode:
+
+```bash
+python3 -m pip install -e .
+breastxagent --help
+```
+
+If that command is not recognized on a new machine, use the bash scripts instead.
+
 ## Development Checks
 
 ```bash
-python -m compileall src tests
-pytest
+python3 -m compileall src tests
+python3 -m pytest
 ```
 
 ## Notes
@@ -119,4 +145,3 @@ pytest
 - Inference uses sigmoid scores for the primary prediction to match the original notebook behavior.
 - Grad-CAM uses the Inception-v3 `Mixed_7c` block by default.
 - Generated data, downloaded weights, and outputs are ignored by Git.
-
