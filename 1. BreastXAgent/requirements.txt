@@ -1,0 +1,11 @@
+huggingface_hub>=0.35.3
+langgraph>=0.2.0
+matplotlib>=3.8.0
+numpy>=1.26.0
+pandas>=2.2.0
+pillow>=10.0.0
+scikit-learn>=1.4.0
+torch>=2.2.0
+torchvision>=0.17.0
+tqdm>=4.66.0
+

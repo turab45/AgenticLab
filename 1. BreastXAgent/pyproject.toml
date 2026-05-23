@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "breastxagent"
+version = "0.1.0"
+description = "Breast density classification, Grad-CAM explanation, and guarded report generation."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Turab Bajeer" }
+]
+dependencies = [
+  "huggingface_hub>=0.35.3",
+  "langgraph>=0.2.0",
+  "matplotlib>=3.8.0",
+  "numpy>=1.26.0",
+  "pandas>=2.2.0",
+  "pillow>=10.0.0",
+  "scikit-learn>=1.4.0",
+  "torch>=2.2.0",
+  "torchvision>=0.17.0",
+  "tqdm>=4.66.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "ruff>=0.5.0"
+]
+
+[project.scripts]
+breastxagent = "breastxagent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
