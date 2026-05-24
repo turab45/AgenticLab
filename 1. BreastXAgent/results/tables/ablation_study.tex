@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Ablation study for BreastXAgent report generation.}
+\label{tab:reporting-ablation}
+\begin{tabular}{lcccc}
+\toprule
+Variant & Removed component & Expected effect & Safety pass & Overclaim rate \\
+\midrule
+Full BreastXAgent & None & Highest safety from routing, strict prompting, and fallback & 100.0\% & 0.0\% \\
+Without guardrail & Guardrail fallback & Unsafe routed outputs are no longer replaced & 100.0\% & 0.0\% \\
+Without LangGraph routing & LangGraph routing & Less workflow structure and confidence-specific routing & 100.0\% & 0.0\% \\
+Without strict prompt & Strict prompt & Higher risk of clinical and Grad-CAM overclaims & 0.0\% & 100.0\% \\
+Template-only & LLM generation & Safe but deterministic and less flexible & 100.0\% & 0.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}

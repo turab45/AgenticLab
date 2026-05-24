@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Efficiency comparison across reporting strategies.}
+\label{tab:reporting-efficiency}
+\begin{tabular}{lccc}
+\toprule
+Method & Mean word count & Mean latency / case & Fallback rate \\
+\midrule
+Template-only & 106.0 & 0.000 & 0.0\% \\
+LLM-only & 47.0 & 0.000 & 0.0\% \\
+Strict-prompt LLM & 65.0 & 0.000 & 0.0\% \\
+LangGraph + LLM & 78.0 & 0.000 & 0.0\% \\
+BreastXAgent & 106.0 & 0.000 & 100.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}

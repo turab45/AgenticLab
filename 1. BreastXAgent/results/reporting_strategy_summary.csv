@@ -1,0 +1,6 @@
+method,n_cases,completion_rate,faithfulness_rate,confidence_consistency_rate,gradcam_overclaim_rate,clinical_overclaim_rate,safety_pass_rate,mean_word_count,mean_latency_seconds,fallback_rate
+Template-only,16,1.0,1.0,1.0,0.0,0.0,1.0,106.0,2.5625e-06,0.0
+LLM-only,16,1.0,1.0,0.0,1.0,1.0,0.0,47.0,2.96875e-05,0.0
+Strict-prompt LLM,16,1.0,1.0,1.0,0.0,0.0,1.0,65.0,1.625e-05,0.0
+LangGraph + LLM,16,1.0,1.0,1.0,0.0,0.0,1.0,78.0,3.825e-05,0.0
+BreastXAgent,16,1.0,1.0,1.0,0.0,0.0,1.0,106.0,4.23125e-05,1.0

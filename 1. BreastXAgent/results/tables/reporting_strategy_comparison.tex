@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Reporting strategy comparison on BreastReportBench.}
+\label{tab:reporting-strategy-comparison}
+\begin{tabular}{lcccccc}
+\toprule
+Method & Completion $\uparrow$ & Faithfulness $\uparrow$ & Confidence consistency $\uparrow$ & Grad-CAM overclaim $\downarrow$ & Clinical overclaim $\downarrow$ & Safety pass $\uparrow$ \\
+\midrule
+Template-only & 100.0\% & 100.0\% & 100.0\% & 0.0\% & 0.0\% & 100.0\% \\
+LLM-only & 100.0\% & 100.0\% & 0.0\% & 100.0\% & 100.0\% & 0.0\% \\
+Strict-prompt LLM & 100.0\% & 100.0\% & 100.0\% & 0.0\% & 0.0\% & 100.0\% \\
+LangGraph + LLM & 100.0\% & 100.0\% & 100.0\% & 0.0\% & 0.0\% & 100.0\% \\
+BreastXAgent & 100.0\% & 100.0\% & 100.0\% & 0.0\% & 0.0\% & 100.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
