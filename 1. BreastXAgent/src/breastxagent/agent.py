@@ -327,7 +327,6 @@ class HuggingFaceChatClient:
             {"role": "user", "content": prompt},
         ]
 
-        last_error: Exception | None = None
         for _attempt in range(self.max_retries):
             try:
                 response = self.client.chat_completion(
@@ -337,11 +336,10 @@ class HuggingFaceChatClient:
                     top_p=0.8,
                 )
                 return response.choices[0].message.content.strip()
-            except Exception as exc:
-                last_error = exc
+            except Exception:
                 time.sleep(2)
 
-        return f"LLM report generation failed. Error: {last_error}"
+        return ""
 
 
 def generate_reports_dataframe(

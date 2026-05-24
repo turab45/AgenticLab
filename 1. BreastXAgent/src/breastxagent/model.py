@@ -15,7 +15,12 @@ class InceptionMONAIStyleAdapter(nn.Module):
 
     def __init__(self, num_classes: int = 4) -> None:
         super().__init__()
-        base = inception_v3(weights=None, aux_logits=True, transform_input=False)
+        base = inception_v3(
+            weights=None,
+            aux_logits=True,
+            transform_input=False,
+            init_weights=False,
+        )
         base.fc = nn.Identity()
         self.features = base
         self.fc = nn.Linear(2048, num_classes)
@@ -99,4 +104,3 @@ def build_model(
 
     model.eval()
     return model
-
